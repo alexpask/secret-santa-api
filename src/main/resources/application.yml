@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/santa_db
+    username: postgres
+    password: postgres
+    platform: postgres
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
