@@ -1,6 +1,7 @@
 package org.santa.filter;
 
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -53,8 +54,14 @@ public class TokenFilter extends OncePerRequestFilter {
             return;
         }
 
-        String authorization = httpServletRequest.getHeader("Authorization")
-                .replace("Bearer ", "");
+        String authorizationHeader = httpServletRequest.getHeader("Authorization");
+
+        if (authorizationHeader == null) {
+
+            throw new BadCredentialsException("Authorization header not found");
+        }
+
+        String authorization = authorizationHeader.replace("Bearer ", "");
 
         final Authentication token = new UsernamePasswordAuthenticationToken(authorization, authorization);
 

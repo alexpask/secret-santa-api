@@ -7,6 +7,7 @@ import org.santa.model.User;
 import org.santa.model.enums.Role;
 import org.santa.repository.UsersRepository;
 import org.santa.service.UserService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -41,9 +42,11 @@ public class UserServiceImpl implements UserService {
                         .build());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Token generateToken(LoginRequest loginRequest)
-            throws Exception {
+    public Token generateToken(LoginRequest loginRequest) {
 
         User user =
                 usersRepository.getUserByUsername(loginRequest.getUsername());
@@ -52,7 +55,7 @@ public class UserServiceImpl implements UserService {
                 !loginRequest.getUsername().equals(user.getUsername()) ||
                 !encoder.matches(loginRequest.getPassword(), user.getPassword())) {
 
-            throw new Exception();
+            throw new UsernameNotFoundException("User not found");
         }
 
         UUID token = UUID.randomUUID();

@@ -38,6 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public SecurityConfig(TokenAuthenticationProvider provider) {
+
         this.provider = provider;
     }
 
