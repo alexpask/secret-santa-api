@@ -2,6 +2,7 @@ package org.santa.service.impl
 
 import org.santa.model.RegistrationRequest
 import org.santa.model.User
+import org.santa.model.enums.Role
 import org.santa.repository.UsersRepository
 import org.springframework.security.crypto.password.PasswordEncoder
 import spock.lang.Specification
@@ -29,6 +30,7 @@ class UserServiceImplSpec extends Specification {
         def user = new User(
                 username: username,
                 email: email,
+                role: Role.USER,
                 password: encodedPassword)
 
         when:
