@@ -4,6 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 /**
@@ -12,6 +16,8 @@ import java.util.List;
 @Data
 public class CreateSantaRequest {
 
+    @Valid
+    @Size(min = 3)
     private List<Participant> participants;
 
     @Data
@@ -19,7 +25,10 @@ public class CreateSantaRequest {
     @AllArgsConstructor
     public static class Participant {
 
+        @NotEmpty
         private String name;
+
+        @Email
         private String email;
     }
 }

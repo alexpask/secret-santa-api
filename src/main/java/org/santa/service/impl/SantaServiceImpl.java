@@ -40,7 +40,6 @@ public class SantaServiceImpl implements SantaService {
 
         User user = usersRepository.getUserByUsername(username);
 
-        // TODO update exception so error message is return to FE.
         if (secretSantaRepository.existsByCreator(user)) {
 
             throw new SantaException("This user already has a secret santa list");
@@ -61,11 +60,6 @@ public class SantaServiceImpl implements SantaService {
                         .secretSanta(secretSanta)
                         .build())
                 .collect(toList());
-
-        if (participants.size() < 3) {
-
-            throw new SantaException("At least 3 people are required by play");
-        }
 
         participantRepository.saveAll(participants);
 
