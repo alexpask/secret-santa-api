@@ -1,9 +1,9 @@
 package org.santa.service;
 
-import org.santa.model.LoginRequest;
-import org.santa.model.RegistrationRequest;
-import org.santa.model.Token;
-import org.santa.model.User;
+import org.santa.model.dtos.LoginRequest;
+import org.santa.model.dtos.RegistrationRequest;
+import org.santa.model.dtos.Token;
+import org.santa.model.entities.User;
 
 public interface UserService {
 

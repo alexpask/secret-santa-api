@@ -1,4 +1,4 @@
-package org.santa.model;
+package org.santa.model.dtos;
 
 import lombok.Data;
 

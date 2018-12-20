@@ -1,9 +1,11 @@
 package org.santa.api;
 
-import org.santa.model.LoginRequest;
-import org.santa.model.RegistrationRequest;
-import org.santa.model.Token;
+import org.santa.model.dtos.LoginRequest;
+import org.santa.model.dtos.RegistrationRequest;
+import org.santa.model.dtos.Token;
 import org.santa.service.UserService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.security.Principal;
 
 /**
  * Controller to manage users of the application.
@@ -66,8 +67,8 @@ public class UserController {
      * Testing endpoint. Returns principal details.
      */
     @GetMapping("/principal")
-    public Principal principal(Principal principal) {
+    public UserDetails principal(@AuthenticationPrincipal UserDetails user) {
 
-        return principal;
+        return user;
     }
 }

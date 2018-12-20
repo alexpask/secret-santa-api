@@ -1,6 +1,7 @@
 package org.santa.provider;
 
 import org.santa.model.UserDetailsImpl;
+import org.santa.model.entities.User;
 import org.santa.repository.UsersRepository;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
@@ -12,8 +13,9 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 /**
- * Token authentication provider. Finds {@link org.santa.model.User} from repository
+ * Token authentication provider. Finds {@link User} from repository
  * via token and builds a {@link UserDetails}  object.
+ *
  */
 @Component
 public class TokenAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {

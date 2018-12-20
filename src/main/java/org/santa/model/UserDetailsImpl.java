@@ -19,6 +19,7 @@ public class UserDetailsImpl implements UserDetails {
     @JsonIgnore
     private String password;
     private String username;
+
     private List<GrantedAuthority> authorities;
 
     public UserDetailsImpl(String username, String password, Role role) {
@@ -27,7 +28,7 @@ public class UserDetailsImpl implements UserDetails {
 
         authorities = asList(new SimpleGrantedAuthority("ROLE_" + role.toString()));
     }
-
+    
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;

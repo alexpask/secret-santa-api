@@ -1,9 +1,9 @@
 package org.santa.service.impl;
 
-import org.santa.model.LoginRequest;
-import org.santa.model.RegistrationRequest;
-import org.santa.model.Token;
-import org.santa.model.User;
+import org.santa.model.dtos.LoginRequest;
+import org.santa.model.dtos.RegistrationRequest;
+import org.santa.model.dtos.Token;
+import org.santa.model.entities.User;
 import org.santa.model.enums.Role;
 import org.santa.repository.UsersRepository;
 import org.santa.service.UserService;

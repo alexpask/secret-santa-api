@@ -1,8 +1,8 @@
 package org.santa.api
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.santa.model.RegistrationRequest
-import org.santa.model.User
+import org.santa.model.dtos.RegistrationRequest
+import org.santa.model.entities.User
 import org.santa.service.UserService
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc

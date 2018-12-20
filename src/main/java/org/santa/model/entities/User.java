@@ -1,4 +1,4 @@
-package org.santa.model;
+package org.santa.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
