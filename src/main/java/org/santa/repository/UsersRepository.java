@@ -11,6 +11,4 @@ import org.springframework.stereotype.Repository;
 public interface UsersRepository extends JpaRepository<User, Long> {
 
     User getUserByUsername(String username);
-
-    User getUserByToken(String token);
 }
