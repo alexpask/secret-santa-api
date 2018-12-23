@@ -2,7 +2,7 @@ package org.santa.provider;
 
 import org.santa.model.UserDetailsImpl;
 import org.santa.model.entities.User;
-import org.santa.repository.UsersRepository;
+import org.santa.service.TokenService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.core.AuthenticationException;
@@ -20,11 +20,11 @@ import java.util.Optional;
 @Component
 public class TokenAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
 
-    private final UsersRepository usersRepository;
+    private final TokenService tokenService;
 
-    public TokenAuthenticationProvider(UsersRepository usersRepository) {
+    public TokenAuthenticationProvider(TokenService tokenService) {
 
-        this.usersRepository = usersRepository;
+        this.tokenService = tokenService;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class TokenAuthenticationProvider extends AbstractUserDetailsAuthenticati
 
         return Optional.ofNullable(token)
                 .map(String::valueOf)
-                .map(usersRepository::getUserByToken)
+                .map(tokenService::verifyToken)
                 .map(user -> new UserDetailsImpl(user.getUsername(), user.getPassword(), user.getRole()))
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }

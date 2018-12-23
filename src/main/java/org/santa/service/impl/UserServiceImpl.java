@@ -6,24 +6,26 @@ import org.santa.model.dtos.Token;
 import org.santa.model.entities.User;
 import org.santa.model.enums.Role;
 import org.santa.repository.UsersRepository;
+import org.santa.service.TokenService;
 import org.santa.service.UserService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
 @Service
 public class UserServiceImpl implements UserService {
 
     private final PasswordEncoder encoder;
+    private final TokenService tokenService;
     private final UsersRepository usersRepository;
 
     public UserServiceImpl(
             PasswordEncoder encoder,
+            TokenService tokenService,
             UsersRepository usersRepository) {
 
         this.encoder = encoder;
+        this.tokenService = tokenService;
         this.usersRepository = usersRepository;
     }
 
@@ -58,12 +60,6 @@ public class UserServiceImpl implements UserService {
             throw new UsernameNotFoundException("User not found");
         }
 
-        UUID token = UUID.randomUUID();
-
-        user.setToken(token.toString());
-
-        usersRepository.save(user);
-
-        return new Token(token.toString());
+        return tokenService.issueToken(user);
     }
 }

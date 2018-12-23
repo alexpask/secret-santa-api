@@ -4,14 +4,17 @@ import org.santa.model.dtos.RegistrationRequest
 import org.santa.model.entities.User
 import org.santa.model.enums.Role
 import org.santa.repository.UsersRepository
+import org.santa.service.TokenService
 import org.springframework.security.crypto.password.PasswordEncoder
 import spock.lang.Specification
 
 class UserServiceImplSpec extends Specification {
 
     def userRepository = Mock(UsersRepository)
+    def tokenService = Mock(TokenService)
     def encoder = Mock(PasswordEncoder)
-    def userService = new UserServiceImpl(encoder, userRepository)
+    def userService =
+            new UserServiceImpl(encoder, tokenService, userRepository)
 
     def "should save a user from registration request"() {
 
