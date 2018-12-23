@@ -60,27 +60,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .csrf()
-                .disable()
+                .csrf().disable()
                 .formLogin().disable()
                 .httpBasic().disable()
                 .logout().disable()
                 .exceptionHandling()
                 .defaultAuthenticationEntryPointFor(forbiddenEntryPoint(), PROTECTED_URLS)
                 .and()
-                .authenticationProvider(provider)
                 .addFilterBefore(authFilter(), AnonymousAuthenticationFilter.class)
                 .authorizeRequests()
-                .requestMatchers(PUBLIC_URLS)
-                .permitAll()
-                .requestMatchers(PROTECTED_URLS)
-                .authenticated();
+                .requestMatchers(PUBLIC_URLS).permitAll()
+                .requestMatchers(PROTECTED_URLS).authenticated();
     }
 
     @Bean
     TokenFilter authFilter() throws Exception {
 
-        return new TokenFilter(PROTECTED_URLS, authenticationManager());
+        return new TokenFilter(authenticationManager());
     }
 
     @Bean
