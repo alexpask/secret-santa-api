@@ -22,4 +22,12 @@ public interface UserService {
      * @throws Exception
      */
     Token generateToken(LoginRequest loginRequest) throws Exception;
+
+    /**
+     * Check whether a username is currently used in the application.
+     *
+     * @param username Username to check
+     * @return true if username is not currently used and false if it is.
+     */
+    boolean checkAvailability(String username);
 }

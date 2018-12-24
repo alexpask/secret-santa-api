@@ -62,4 +62,13 @@ public class UserServiceImpl implements UserService {
 
         return tokenService.issueToken(user);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean checkAvailability(String username) {
+
+        return !usersRepository.existsByUsername(username);
+    }
 }

@@ -1,5 +1,6 @@
 package org.santa.api;
 
+import org.santa.model.dtos.Availability;
 import org.santa.model.dtos.LoginRequest;
 import org.santa.model.dtos.RegistrationRequest;
 import org.santa.model.dtos.Token;
@@ -7,6 +8,7 @@ import org.santa.service.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +38,7 @@ public class UserController {
      * @throws Exception thrown if there is an error in sign up
      */
     @PostMapping("/register")
-    public Token register(@Valid @RequestBody RegistrationRequest registrationRequest)
+    public Token register(@RequestBody @Valid RegistrationRequest registrationRequest)
             throws Exception {
 
         userService.register(registrationRequest);
@@ -55,10 +57,16 @@ public class UserController {
      * @throws Exception thrown if there is an error in login
      */
     @PostMapping("/login")
-    public Token login(@Valid @RequestBody LoginRequest loginRequest)
+    public Token login(@RequestBody @Valid LoginRequest loginRequest)
             throws Exception {
 
         return userService.generateToken(loginRequest);
+    }
+
+    @GetMapping("/available/{username}")
+    public Availability usernameAvailable(@PathVariable("username") String username) {
+
+        return new Availability(username, userService.checkAvailability(username));
     }
 
     /**
