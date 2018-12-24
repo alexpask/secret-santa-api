@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
 
         } catch (DataIntegrityViolationException dive) {
 
-            throw new UserException("User already exists");
+            throw new UserException("Unable to save user");
         }
     }
 

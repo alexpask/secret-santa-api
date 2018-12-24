@@ -46,7 +46,7 @@ public class JwtTokenService implements TokenService {
         return new Token(
                 Jwts
                         .builder()
-                        .setSubject(user.getUsername())
+                        .setSubject(user.getId())
                         .setIssuedAt(now)
                         .setExpiration(expiry)
                         .signWith(key, SignatureAlgorithm.HS256)
@@ -63,10 +63,10 @@ public class JwtTokenService implements TokenService {
                 .parser()
                 .setSigningKey(key);
 
-        String user = parser.parseClaimsJws(token)
+        String userId = parser.parseClaimsJws(token)
                 .getBody()
                 .getSubject();
 
-        return usersRepository.getUserByUsername(user);
+        return usersRepository.findById(userId).orElse(null);
     }
 }

@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
  * Repository for {@link Participant}
  */
 @Repository
-public interface ParticipantRepository extends JpaRepository<Participant, Long> {
+public interface ParticipantRepository extends JpaRepository<Participant, String> {
 }

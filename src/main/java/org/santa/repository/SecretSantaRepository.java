@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
  * Repository for {@link SecretSanta} lists
  */
 @Repository
-public interface SecretSantaRepository extends JpaRepository<SecretSanta, Long> {
+public interface SecretSantaRepository extends JpaRepository<SecretSanta, String> {
 
     SecretSanta getByCreator(User creator);
 
