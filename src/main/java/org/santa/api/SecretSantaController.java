@@ -2,8 +2,11 @@ package org.santa.api;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.Authorization;
 import org.santa.model.dtos.CreateSantaRequest;
+import org.santa.model.dtos.ErrorResponse;
 import org.santa.model.entities.SecretSanta;
 import org.santa.service.SantaService;
 import org.springframework.http.MediaType;
@@ -34,6 +37,9 @@ public class SecretSantaController {
             authorizations = @Authorization(value = "jwt")
     )
     @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiResponses(
+            value = @ApiResponse(code = 400, response = ErrorResponse.class, message = "Bad request")
+    )
     public SecretSanta createSanta(
             @AuthenticationPrincipal UserDetails user,
             @RequestBody @Valid CreateSantaRequest createSantaRequest) {

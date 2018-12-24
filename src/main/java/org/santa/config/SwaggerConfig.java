@@ -7,9 +7,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.RequestMethod;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.builders.ResponseMessageBuilder;
+import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.ApiKey;
 import springfox.documentation.spi.DocumentationType;
@@ -17,6 +20,8 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.EMPTY_LIST;
+import static java.util.Collections.singletonList;
 
 @EnableSwagger2
 @Profile("local")
@@ -39,9 +44,20 @@ public class SwaggerConfig {
                         null,
                         null,
                         null,
-                        null))
-                .securitySchemes(asList(apiKey()));
+                        null,
+                        EMPTY_LIST))
+                .securitySchemes(singletonList(apiKey()))
+                .useDefaultResponseMessages(false)
+                .globalResponseMessage(
+                        RequestMethod.GET,
+                        asList(
+                                new ResponseMessageBuilder()
+                                        .code(500)
+                                        .message("Internal server error")
+                                        .responseModel(new ModelRef("ErrorResponse"))
+                                        .build()));
     }
+
 
     private ApiKey apiKey() {
         return new ApiKey("jwt",
