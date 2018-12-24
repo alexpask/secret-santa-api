@@ -1,15 +1,17 @@
 package org.santa.config;
 
+import io.jsonwebtoken.lang.Collections;
 import org.santa.filter.TokenFilter;
 import org.santa.provider.TokenAuthenticationProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -42,11 +44,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final RequestMatcher PROTECTED_URLS = new NegatedRequestMatcher(PUBLIC_URLS);
 
     private final AbstractUserDetailsAuthenticationProvider provider;
+    private final Environment environment;
 
-    @Autowired
-    public SecurityConfig(TokenAuthenticationProvider provider) {
+    public SecurityConfig(TokenAuthenticationProvider provider,
+                          Environment environment) {
 
         this.provider = provider;
+        this.environment = environment;
     }
 
     @Bean
@@ -58,6 +62,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) {
 
         auth.authenticationProvider(provider);
+    }
+
+    @Override
+    public void configure(WebSecurity web) {
+
+        // Ignore swagger if local
+        if (Collections.arrayToList(environment.getActiveProfiles()).contains("local")) {
+
+            web
+                    .ignoring()
+                    .antMatchers("/v2/api-docs",
+                            "/swagger-resources/**",
+                            "/swagger-ui.html",
+                            "/webjars/**");
+        }
     }
 
     @Override
@@ -88,7 +107,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.addAllowedOrigin("*");
         corsConfiguration.addAllowedHeader("*");
-        corsConfiguration.setAllowedMethods(asList("GET","POST", "PUT"));
+        corsConfiguration.setAllowedMethods(asList("GET", "POST", "PUT"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfiguration);
 
