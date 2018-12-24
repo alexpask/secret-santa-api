@@ -1,6 +1,7 @@
 package org.santa.api;
 
 import org.santa.exception.SantaException;
+import org.santa.exception.UserException;
 import org.santa.model.dtos.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -33,9 +34,9 @@ public class SantaControllerAdvice {
         return new ErrorResponse(errors);
     }
 
-    @ExceptionHandler(SantaException.class)
+    @ExceptionHandler({SantaException.class, UserException.class})
     @ResponseStatus(BAD_REQUEST)
-    public ErrorResponse santaException(SantaException se) {
+    public ErrorResponse santaException(RuntimeException se) {
 
         return new ErrorResponse(singletonList(se.getMessage()));
     }

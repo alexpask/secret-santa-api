@@ -1,5 +1,6 @@
 package org.santa.service.impl;
 
+import org.santa.exception.UserException;
 import org.santa.model.dtos.LoginRequest;
 import org.santa.model.dtos.RegistrationRequest;
 import org.santa.model.dtos.Token;
@@ -8,6 +9,7 @@ import org.santa.model.enums.Role;
 import org.santa.repository.UsersRepository;
 import org.santa.service.TokenService;
 import org.santa.service.UserService;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -35,13 +37,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public User register(RegistrationRequest registrationRequest) {
 
-        return usersRepository.save(
-                User.builder()
-                        .username(registrationRequest.getUsername())
-                        .password(encoder.encode(registrationRequest.getPassword()))
-                        .email(registrationRequest.getEmail())
-                        .role(Role.USER)
-                        .build());
+        try {
+
+            return usersRepository.save(
+                    User.builder()
+                            .username(registrationRequest.getUsername())
+                            .password(encoder.encode(registrationRequest.getPassword()))
+                            .email(registrationRequest.getEmail())
+                            .role(Role.USER)
+                            .build());
+
+        } catch (DataIntegrityViolationException dive) {
+
+            throw new UserException("User already exists");
+        }
     }
 
     /**
