@@ -11,8 +11,11 @@ import org.santa.service.TokenService;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-import java.util.Calendar;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
+
+import static java.time.ZoneOffset.UTC;
 
 /**
  * JWT implementation of {@link TokenService}.
@@ -35,10 +38,10 @@ public class JwtTokenService implements TokenService {
     @Override
     public Token issueToken(User user) {
 
-        Calendar calendar = Calendar.getInstance();
         Date now = new Date();
-        calendar.add(Calendar.HOUR, 24);
-        Date expiry = calendar.getTime();
+        Date expiry = Date
+                .from(LocalDateTime.now().plus(3600, ChronoUnit.SECONDS)
+                        .toInstant(UTC));
 
         return new Token(
                 Jwts

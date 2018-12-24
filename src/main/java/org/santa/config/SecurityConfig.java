@@ -95,9 +95,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    TokenFilter authFilter() throws Exception {
+    TokenFilter authFilter() {
 
-        return new TokenFilter(authenticationManager());
+        return new TokenFilter();
     }
 
     @Bean

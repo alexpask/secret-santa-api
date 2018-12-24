@@ -15,7 +15,6 @@ import java.util.Optional;
 /**
  * Token authentication provider. Finds {@link User} from repository
  * via token and builds a {@link UserDetails}  object.
- *
  */
 @Component
 public class TokenAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
@@ -42,9 +41,8 @@ public class TokenAuthenticationProvider extends AbstractUserDetailsAuthenticati
             UsernamePasswordAuthenticationToken authentication)
             throws AuthenticationException {
 
-        Object token = authentication.getCredentials();
-
-        return Optional.ofNullable(token)
+        return Optional.ofNullable(
+                authentication.getCredentials())
                 .map(String::valueOf)
                 .map(tokenService::verifyToken)
                 .map(user -> new UserDetailsImpl(user.getUsername(), user.getPassword(), user.getRole()))
