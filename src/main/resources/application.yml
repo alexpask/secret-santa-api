@@ -9,3 +9,6 @@ spring:
     show-sql: true
   profiles:
     active: local
+logging:
+  level:
+    ROOT: DEBUG

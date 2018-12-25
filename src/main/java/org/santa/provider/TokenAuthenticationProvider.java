@@ -45,7 +45,7 @@ public class TokenAuthenticationProvider extends AbstractUserDetailsAuthenticati
                 authentication.getCredentials())
                 .map(String::valueOf)
                 .map(tokenService::verifyToken)
-                .map(user -> new UserDetailsImpl(user.getUsername(), user.getPassword(), user.getRole()))
+                .map(user -> new UserDetailsImpl(user.getUsername(), user.getRole()))
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 }

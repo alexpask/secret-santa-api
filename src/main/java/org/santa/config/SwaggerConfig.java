@@ -58,7 +58,6 @@ public class SwaggerConfig {
                                         .build()));
     }
 
-
     private ApiKey apiKey() {
         return new ApiKey("jwt",
                 HttpHeaders.AUTHORIZATION,

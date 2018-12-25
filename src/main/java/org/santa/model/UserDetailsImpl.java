@@ -16,15 +16,12 @@ import static java.util.Arrays.asList;
  */
 public class UserDetailsImpl implements UserDetails {
 
-    @JsonIgnore
-    private String password;
     private String username;
 
     private List<GrantedAuthority> authorities;
 
-    public UserDetailsImpl(String username, String password, Role role) {
+    public UserDetailsImpl(String username, Role role) {
         this.username = username;
-        this.password = password;
 
         authorities = asList(new SimpleGrantedAuthority("ROLE_" + role.toString()));
     }
@@ -34,9 +31,10 @@ public class UserDetailsImpl implements UserDetails {
         return authorities;
     }
 
+    @JsonIgnore
     @Override
     public String getPassword() {
-        return password;
+        return null;
     }
 
     @Override

@@ -59,11 +59,10 @@ public class JwtTokenService implements TokenService {
     @Override
     public User verifyToken(String token) {
 
-        JwtParser parser = Jwts
+        String userId = Jwts
                 .parser()
-                .setSigningKey(key);
-
-        String userId = parser.parseClaimsJws(token)
+                .setSigningKey(key)
+                .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
 
