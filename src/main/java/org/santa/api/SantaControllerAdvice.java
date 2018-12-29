@@ -13,6 +13,7 @@ import java.util.List;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 /**
  * Provides error handling for application.
@@ -39,5 +40,12 @@ public class SantaControllerAdvice {
     public ErrorResponse santaException(RuntimeException se) {
 
         return new ErrorResponse(singletonList(se.getMessage()));
+    }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(INTERNAL_SERVER_ERROR)
+    public ErrorResponse generalException(Exception e) {
+
+        return new ErrorResponse(singletonList(e.getMessage()));
     }
 }
