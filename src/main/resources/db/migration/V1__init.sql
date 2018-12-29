@@ -15,5 +15,7 @@ CREATE TABLE IF NOT EXISTS participant (
   id VARCHAR(50) PRIMARY KEY,
   santa_secret_id VARCHAR(50)  REFERENCES  secret_santa(id),
   name VARCHAR (50) NOT NULL,
-  email VARCHAR(50) NOT NULL
+  email VARCHAR(50) NOT NULL,
+  email_verified BOOLEAN NOT NULL,
+  email_verification_code VARCHAR(50)
 );

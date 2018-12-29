@@ -36,6 +36,7 @@ import static java.util.Arrays.asList;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final RequestMatcher PUBLIC_URLS = new OrRequestMatcher(
+            new AntPathRequestMatcher("/api/verify/**"),
             new AntPathRequestMatcher("/api/users/register"),
             new AntPathRequestMatcher("/api/users/available/**"),
             new AntPathRequestMatcher("/api/users/login")

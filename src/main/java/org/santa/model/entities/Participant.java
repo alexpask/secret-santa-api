@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -33,6 +34,12 @@ public class Participant {
     private String name;
 
     private String email;
+
+    @Column(name = "email_verified")
+    private boolean emailVerified;
+
+    @Column(name = "email_verification_code")
+    private String emailVerificationCode;
 
     @ManyToOne
     @JsonIgnore

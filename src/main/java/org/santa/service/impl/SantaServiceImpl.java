@@ -9,7 +9,9 @@ import org.santa.repository.ParticipantRepository;
 import org.santa.repository.SecretSantaRepository;
 import org.santa.repository.UsersRepository;
 import org.santa.service.SantaService;
+import org.santa.service.VerificationService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,15 +20,18 @@ import static java.util.stream.Collectors.toList;
 @Service
 public class SantaServiceImpl implements SantaService {
 
+    private final VerificationService verificationService;
     private final UsersRepository usersRepository;
     private final SecretSantaRepository secretSantaRepository;
     private final ParticipantRepository participantRepository;
 
     public SantaServiceImpl(
+            VerificationService verificationService,
             UsersRepository usersRepository,
             SecretSantaRepository secretSantaRepository,
             ParticipantRepository participantRepository) {
 
+        this.verificationService = verificationService;
         this.usersRepository = usersRepository;
         this.secretSantaRepository = secretSantaRepository;
         this.participantRepository = participantRepository;
@@ -35,6 +40,7 @@ public class SantaServiceImpl implements SantaService {
     /**
      * {@inheritDoc}
      */
+    @Transactional
     @Override
     public SecretSanta create(String username, CreateSantaRequest createSantaRequest) {
 
@@ -57,15 +63,24 @@ public class SantaServiceImpl implements SantaService {
                         .builder()
                         .name(p.getName())
                         .email(p.getEmail())
+                        .emailVerified(false)
                         .secretSanta(secretSanta)
                         .build())
                 .collect(toList());
 
         participantRepository.saveAll(participants);
 
-        secretSanta.setParticipants(participants);
+        secretSanta
+                .setParticipants(
+                        participants
+                                .stream()
+                                .peek(p -> p.setEmailVerificationCode(
+                                        verificationService.send(p.getEmail(), p.getId())))
+                                .collect(toList()));
 
-        return secretSantaRepository.save(secretSanta);
+        secretSantaRepository.save(secretSanta);
+
+        return secretSanta;
     }
 
     /**

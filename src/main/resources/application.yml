@@ -9,6 +9,14 @@ spring:
     show-sql: true
   profiles:
     active: local
-logging:
-  level:
-    ROOT: DEBUG
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+santa:
+  url: http://localhost:8083
