@@ -48,6 +48,7 @@ public class Participant {
     private SecretSanta secretSanta;
 
     @OneToOne
+    @JsonIgnore
     @JoinColumn(name = "buys_gift_for_id")
     private Participant buysGiftFor;
 }
