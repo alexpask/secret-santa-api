@@ -19,4 +19,4 @@ spring:
           starttls:
             enable: true
 santa:
-  url: http://localhost:8083
+  url: http://localhost:8080

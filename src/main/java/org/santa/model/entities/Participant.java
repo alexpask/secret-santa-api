@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -45,4 +46,8 @@ public class Participant {
     @JsonIgnore
     @JoinColumn(name = "santa_secret_id")
     private SecretSanta secretSanta;
+
+    @OneToOne
+    @JoinColumn(name = "buys_gift_for_id")
+    private Participant buysGiftFor;
 }
