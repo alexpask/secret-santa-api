@@ -19,7 +19,12 @@
         <groovy.version>2.4.8</groovy.version>
         <spock.version>1.0-groovy-2.4</spock.version>
         <cglib.version>3.2.5</cglib.version>
+        <!--<sonar.projectKey>alexpask_secret-santa-api</sonar.projectKey>-->
+        <!--<sonar.organization>alexpask</sonar.organization>-->
+        <!--<sonar.host.url>https://sonarcloud.io</sonar.host.url>-->
+        <!--<sonar.login>cec70b20b848ff4b247985b807492a13d6fe3d86</sonar.login>-->
     </properties>
+
 
     <dependencies>
         <dependency>
