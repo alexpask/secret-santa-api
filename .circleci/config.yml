@@ -21,6 +21,7 @@ jobs:
           path: target/surefire-reports
 
 workflows:
+  version: 2
   main:
       jobs:
         - build
